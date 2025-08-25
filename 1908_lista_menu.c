@@ -84,7 +84,7 @@ lista* removefinal(lista *aux, int *removido) //remover do inicio
         return NULL;
         *removido = aux -> info;
     }
-    while(atual -> prox != NULL) //percorrendo até o ultimo
+    while(atual -> prox != NULL) //percorrendo atÃ© o ultimo
     {
         anterior = atual;
         atual = atual -> prox;
@@ -262,10 +262,10 @@ int main()
             printf("Soma dos elementos: %d", soma);
         break;
         case 9: //numeros impares
-            printf("Quantidade de números impares: %d", qt_impares);
+            printf("Quantidade de nÃºmeros impares: %d", qt_impares);
         break;
         case 10: //numeros pares
-            printf("Quantidade de números pares: %d", qt_pares);
+            printf("Quantidade de nÃºmeros pares: %d", qt_pares);
         break;
         case 11: //sair
             inicio=apaga(inicio);
