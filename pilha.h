@@ -20,7 +20,7 @@ pilha* cria(void)
 return p;
 }
 
-//auxiliar de inserção
+//auxiliar de inserÃ§Ã£o
 no* ins_ini (no* t, int a)
 {
     no* aux = (no*) malloc(sizeof(no));
@@ -29,13 +29,13 @@ no* ins_ini (no* t, int a)
 return aux;
 }
 
-//inserção
+//inserÃ§Ã£o
 void push (pilha* p, int v)
 {
     p -> topo = ins_ini(p -> topo,v);
 }
 
-//auxiliar de remoção
+//auxiliar de remoÃ§Ã£o
 no* ret_ini (no* aux)
 {
     no* p = aux -> prox;
@@ -53,7 +53,7 @@ int vazia(pilha *p)
     return 0;
 }
 
-//remoção
+//remoÃ§Ã£o
 int pop (pilha *p)
 {
     int v;
@@ -79,10 +79,48 @@ void imprime (pilha *p)
     {
         while (aux != NULL)
         {
-            printf("%d", aux -> info);
+            printf("| %d |", aux -> info);
             aux = aux -> prox;
         }
     }
+}
+
+//liberar
+pilha* libera(pilha *p)
+{
+    no *aux;
+    while(aux != NULL)
+    {
+        aux = p -> topo -> prox;
+        free (p -> topo);
+        p -> topo = aux;
+    }
+    free ( p -> topo);
+    return NULL;
+}
+
+int contador(pilha *p)
+{
+    int cont=0;
+    no *aux = p -> topo;
+    while (aux != NULL)
+    {
+        aux = aux -> prox;
+        cont++;
+    }
+    return cont;
+}
+
+pilha* inverte(pilha *p)
+{
+    pilha* pilha2 = cria();
+    int v;
+    while (p->topo!= NULL)
+    {
+        v = pop(p);
+        push(pilha2, v);
+    }
+    return pilha2;
 }
 
 #endif // PILHA_H_INCLUDED
