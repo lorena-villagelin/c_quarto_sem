@@ -8,6 +8,13 @@
 #include <unistd.h>
 #include <conio.h>
 
+void limpa()
+{
+    fflush(stdin);
+    getchar();
+    system("cls");
+}
+
 int main ()
 {
     setlocale(LC_ALL, "portuguese");
@@ -47,9 +54,7 @@ int main ()
                 printf("-----------------------------------------------------\n\n");
                 printf("Insira sua opcao: ");
                 scanf("%d", &num);
-                fflush(stdin);
-                getchar();
-                system("cls");
+                limpa();
                 } while (num<1 || num>7);
 
         switch (num) {
@@ -105,58 +110,60 @@ int main ()
                     insere_pet(normal, A);
                 }
                 insere_pet(geral, A);
-                fflush(stdin);
-                getchar();
-                system("cls");
+                limpa();
                 break;
 
             case 2:
-                if (vaziaFila(emerg)==1)
+                if (vaziaFila(emerg)==1 && vaziaFila(normal)==1)
                 {
-                    atende(normal, atendidos, geral);
+                    printf("\nNao ha pets para serem atendidos.\n");
+                }
+                else if (vaziaFila(emerg)== 0)
+                {
+                    atende(emerg, atendidos, geral);
+                    printf("\n------------------------------------------------------");
+                    printf("\n\t\tPet Atendido (Emergência)\n");
                 }
                 else
                 {
-                    if (vaziaFila(normal)==1)
-                    {
-                        printf("Nao ha pets para serem atendidos.");
-                    }
-                    else
-                    {
-                        atende(emerg, atendidos, geral);
-                    }
-
+                    atende(emerg, atendidos, geral);
+                    printf("\n------------------------------------------------------");
+                    printf("\n\t\tPet Atendido (Normal)\n");
                 }
-                printf("\n------------------------------------------------------");
-                printf("\n\t\tPet Atendido\n");
-                fflush(stdin);
-                getchar();
-                system("cls");
+                limpa();
                 break;
 
             case 3:
                 printf("\nComo deseja buscar? [1: ID | 2: Nome]: ");
-                scanf("%d", &b);
-                if(b==1)
+                while(1)
                 {
-                    printf(" ID do animal que deseja buscar: ");
-                    scanf("%d", buscado1);
-                    busca_resul = buscaid(geral, buscado1);
-                }
-                else
-                {
-                    printf(" Nome do animal que deseja buscar: ");
-                    scanf("%s", buscado);
-                    busca_resul = buscanome(geral, buscado);
+                    scanf("%d", &b);
+                        if(b==1)
+                        {
+                            printf(" ID do animal que deseja buscar: ");
+                            scanf("%d", &buscado1);
+                            busca_resul = buscaid(geral, buscado1);
+                        }
+                        else if (b==2)
+                        {
+                            printf(" Nome do animal que deseja buscar: ");
+                            scanf("%s", &buscado);
+                            busca_resul = buscanome(geral, buscado);
+                        }
+                        else
+                        {
+                            printf("Opcao invalida, digite novamente: ");
+                            continue; //volta para o inicio do while
+                        }
                 }
 
                 if (busca_resul == 0)
                 {
-                    printf("\nO animal procurado não está cadastrado.");
+                    printf("\nO animal procurado nao esta cadastrado.");
                 }
                 fflush(stdin);
                 getchar();
-                system("cls");
+                limpa();
                 break;
 
             case 4:
@@ -179,9 +186,7 @@ int main ()
                 {
                     imprime(normal);
                 }
-                fflush(stdin);
-                getchar();
-                system("cls");
+                limpa();
                 break;
 
             case 5:
@@ -193,9 +198,7 @@ int main ()
                 {
                     imprime_prox(emerg);
                 }
-                fflush(stdin);
-                getchar();
-                system("cls");
+                limpa();
                 break;
             case 6:
                 if (vaziaFila(atendidos)==1)
@@ -206,10 +209,9 @@ int main ()
                 {
                     imprime(atendidos);
                 }
-                fflush(stdin);
-                getchar();
-                system("cls");
-                 break;
+                limpa();
+                break;
+
         }
     } while (num!=7);
     return 0;
