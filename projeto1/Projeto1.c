@@ -18,6 +18,7 @@ void limpa()
 int main ()
 {
     setlocale(LC_ALL, "portuguese");
+    srand(time(NULL));
     Fila* emerg;
     Fila* normal;
     Fila* atendidos;
@@ -63,7 +64,8 @@ int main ()
                 printf("\n\t\tFicha de cadastro\n");
                 printf("-----------------------------------------------------");
 
-                id = gera();
+
+                A.id = gera();
                 printf("\nID do pet: %d", A.id);
 
                 printf("\n\nNome do pet: ");
@@ -122,11 +124,11 @@ int main ()
                 {
                     atende(emerg, atendidos, geral);
                     printf("\n------------------------------------------------------");
-                    printf("\n\t\tPet Atendido (Emergência)\n");
+                    printf("\n\t\tPet Atendido (Emergencia)\n");
                 }
                 else
                 {
-                    atende(emerg, atendidos, geral);
+                    atende(normal, atendidos, geral);
                     printf("\n------------------------------------------------------");
                     printf("\n\t\tPet Atendido (Normal)\n");
                 }
@@ -134,9 +136,9 @@ int main ()
                 break;
 
             case 3:
-                printf("\nComo deseja buscar? [1: ID | 2: Nome]: ");
-                while(1)
+                do
                 {
+                printf("\nComo deseja buscar? [1: ID | 2: Nome]: ");
                     scanf("%d", &b);
                         if(b==1)
                         {
@@ -144,18 +146,17 @@ int main ()
                             scanf("%d", &buscado1);
                             busca_resul = buscaid(geral, buscado1);
                         }
-                        else if (b==2)
+                        else if(b==2)
                         {
                             printf(" Nome do animal que deseja buscar: ");
-                            scanf("%s", &buscado);
+                            scanf("%s", buscado);
                             busca_resul = buscanome(geral, buscado);
                         }
                         else
                         {
                             printf("Opcao invalida, digite novamente: ");
-                            continue; //volta para o inicio do while
                         }
-                }
+                } while(b<1 || b>2);
 
                 if (busca_resul == 0)
                 {
@@ -167,20 +168,21 @@ int main ()
                 break;
 
             case 4:
-                printf("Emergencia: ");
+                printf("Relatorio dos pets");
+                printf("\n------------------------------------------------------");
+
                 if(vaziaFila(emerg)==1)
                 {
-                    printf("Nao ha pets nessa fila ;)");
+                    printf("\nNao ha pets na fila de emergencia ;)");
                 }
                 else
                 {
                     imprime(emerg);
                 }
                 printf("\n");
-                printf("\nAtendimento normal: ");
                 if(vaziaFila(normal)==1)
                 {
-                    printf("Nao ha pets nessa fila ;)");
+                    printf("\nNao ha pets na fila normal ;)");
                 }
                 else
                 {

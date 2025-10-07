@@ -75,9 +75,7 @@ void insere_pet(Fila *f, Dados d)
 
 int gera (void)
 {
-    srand(time(NULL));
-    int j=rand() % 900 + 100;
-    return j;
+    return rand() % 900 + 100;
 }
 
 void transferencia(Fila *atendidos, Fila *f)
