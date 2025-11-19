@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <string.h>
 #include "vendas.h"
 
 
@@ -12,29 +8,48 @@ void limpa()
     system("cls");
 }
 
+void line()
+{
+    printf("\n\t\t--------------------------------------------------------------------------------\n");
+}
+
+
+void titulo(const char *nome)
+{
+    line(); tab(); tab();
+    printf("%s\n", nome);
+    line();
+}
+
 int main ()
 {
     Arv *a1;
     a1 = CriaArvore();
     Dados A;
-    int num, num2, total_vendas, ordem;
+    int num, num2, total_vendas, ordem, id_remove;
     float valor, faturamento;
     char buscado[50];
 
      do {
             do {
-                printf("\n\t\t--------------------------------------------------------------------------------\n");
-                printf("\t\t|\t\t\t\tVENDAS                                         |\n");
-                printf("\t\t--------------------------------------------------------------------------------\n\n");
-                printf("\t\t|\t1. Insira uma nova venda.                                              |\n\n");
-                printf("\t\t|\t2. Imprimir todas as vendas.                                           |\n\n");
-                printf("\t\t|\t3. Buscar as vendas de um determinado vendedor.                        |\n\n");
-                printf("\t\t|\t4. Visualizar as vendas acima ou abaixo de um determinado valor.       |\n\n");
-                printf("\t\t|\t5. Visualizar estatisticas das vendas.                                 |\n\n");
-                printf("\t\t|\t6. Remover uma venda.                                                  | \n\n");
-                printf("\t\t|\t7. Finalizar o sistema.                                                |\n\n");
-                printf("\t\t--------------------------------------------------------------------------------\n\n");
-                printf("\t\t\tInsira sua opcao: ");
+                line(); tab(); tab();
+                printf("VENDAS");
+                line(); tab();
+                printf("1. Insira uma nova venda.\n\n");
+                tab();
+                printf("2. Imprimir todas as vendas.\n\n");
+                tab();
+                printf("3. Buscar as vendas de um determinado vendedor.\n\n");
+                tab();
+                printf("4. Visualizar as vendas acima ou abaixo de um determinado valor.\n\n");
+                tab();
+                printf("5. Visualizar estatisticas das vendas.\n\n");
+                tab();
+                printf("6. Remover uma venda.\n\n");
+                tab();
+                printf("7. Finalizar o sistema.");
+                line(); tab();
+                printf("Insira sua opcao: ");
                 scanf("%d", &num);
 
                 } while (num<1 || num>7);
@@ -42,65 +57,80 @@ int main ()
         switch (num) {
             //Insira uma nova venda
             case 1:
-                printf("-----------------------------------------------------");
-                printf("\n\t\tFicha de cadastro\n");
-                printf("-----------------------------------------------------");
+                titulo("CADASTRO");
 
                 A.id = gera();
-                printf("\nID da venda: %d", A.id);
+                tab();
+                printf("ID da venda: %d\n", A.id);
 
-                printf("\nNome do vendedor: ");
-                scanf("%s", A.numvendedor);
-                upper(A.numvendedor);
+                tab();
+                printf("Nome do vendedor: ");
+                scanf("%s", A.vendedor);
+                strupr(A.vendedor);
 
                 srand(time(NULL));
-
-                //char codigo[5]; // 1 letra + 3 números + '\0'
-                geraCodigo(A.numvendedor, 'V'); // gera código com a letra V
-
+                geraCodigo(A.numvendedor, 'V');
+                tab();
                 printf("Codigo gerado: %s\n", A.numvendedor);
 
-                printf("\n\nNome do cliente: ");
+                tab();
+                printf("Nome do cliente: ");
                 scanf("%s", A.cliente);
-                upper(A.cliente);
+                strupr(A.cliente);
 
-                printf("\nData da transacao: ");
-                printf("\n Dia: ");
+                tab();
+                printf("Data da transacao:\n ");
+                tab();
+                printf("| Dia: ");
                 scanf("%d", &A.trans.dia);
                 while (A.trans.dia < 1 || A.trans.dia > 31)
                 {
+                    tab();
                     printf(" Valor invalido, digite novamente: ");
                     scanf("%d", &A.trans.dia);
                 }
-                printf(" Mes: ");
+                tab();
+                printf("| Mes: ");
                 scanf("%d", &A.trans.mes);
                 while (A.trans.mes < 1 || A.trans.mes > 12)
                 {
+                    tab();
                     printf(" Valor invalido, digite novamente: ");
                     scanf("%d", &A.trans.mes);
                 }
-                printf(" Ano: ");
+                tab();
+                printf("| Ano: ");
                 scanf("%d", &A.trans.ano);
-                while (A.trans.ano < 1970 || A.trans.ano > 2025)
+                while (A.trans.ano < 1900 || A.trans.ano > 2025)
                 {
+                    tab();
                     printf("Valor invalido, digite novamente: ");
                     scanf("%d", &A.trans.ano);
                 }
 
-                printf("\nValor da transacao: ");
+                tab();
+                printf("Valor da transacao: R$");
                 scanf("%f", &A.valor);
                 while (A.trans.ano < 0)
                 {
+                    tab();
                     printf("Valor invalido, digite novamente: ");
                     scanf("%d", &A.trans.ano);
                 }
+                titulo("SALVO!");
+
                 insere(a1, A);
+
                 break;
 
             //Imprimir todas as vendas
-            case 2: // fazer do while pra só conseguir responder 1 e 2
-                printf("\nDeseja imprimir em ordem crescente (1) ou em ordem descrescente (2)? ");
-                scanf("%d", &ordem);
+            case 2: // quando a lista ta vazia, precisa de um aviso
+                titulo("IMPRESSAO");
+                do{
+                        tab();
+                        printf("Deseja imprimir em ordem crescente (1) ou em ordem descrescente (2)? ");
+                        scanf("%d", &ordem);
+                }while(ordem!=1 && ordem!=2);
                 if(ordem == 1)
                 {
                     Crescente(a1->raiz);
@@ -113,19 +143,25 @@ int main ()
 
              //Buscar as vendas de um determinado vendedor
             case 3: // imprimir mensagem quando o vendedor nao tem nenhuma venda
+                titulo("BUSCA");
+                tab();
                 printf("Nome do vendedor que deseja buscar as vendas: ");
                 scanf("%s", buscado);
-                upper(buscado);
+                strupr(buscado);
                 BuscaVendas(a1->raiz, buscado);
                 break;
 
             //Visualizar as vendas acima ou abaixo de um determinado valor
             case 4: // imprimir mensagem quando nao tem nenhuma venda abaixo ou acima
+                titulo("VENDAS");
                 printf("Digite o valor: ");
                 scanf("%f", &valor);
+                tab();
                 printf("Qual lista deseja visualizar:");
-                printf("\n1 - Lista de vendas abaixo do valor");
-                printf("\n2 - Lista de vendas acima do valor\n");
+                tab();
+                printf("[1] Lista de vendas abaixo do valor");
+                tab();
+                printf("[2] Lista de vendas acima do valor\n");
                 scanf("%d", &num2);
                 // fazer do while pra só conseguir responder 1 e 2
                 if(num2==1)
@@ -140,15 +176,23 @@ int main ()
 
             //Visualizar estatisticas das vendas
             case 5:
+                titulo("ESTATISTICAS");
                 total_vendas = TotalVendas(a1->raiz);
-                printf("\nNumero total de vendas = %d", total_vendas);
+                tab();
+                printf("Numero total de vendas = %d", total_vendas);
                 faturamento = TotalFaturamento(a1->raiz);
-                printf("\nSoma total do faturamento = %.2f", faturamento);
+                tab();
+                printf("Soma total do faturamento = %.2f", faturamento);
                 break;
 
             //Remover uma venda
-            case 6:
-
+            case 6: // quando o id nao existe, mostrar mensagem
+                titulo("REMOCAO");
+                tab();
+                printf("Digite o ID da venda que deseja remover: ");
+                scanf("%d", &id_remove);
+                a1 = remover(a1, id_remove);
+            break;
 
         }
     } while (num!=7); //liberar arvore
