@@ -4,8 +4,10 @@
 #include <string.h>
 #include <ctype.h>
 
-
-
+void tab()
+{
+    printf("\t\t\t");
+}
 
 typedef struct data
 {
@@ -19,7 +21,7 @@ typedef struct dados
     int id;
     char cliente[50];
     char vendedor[50];
-    char numvendedor[4];
+    char numvendedor[5];
     Data trans;
     float valor;
 }Dados;
@@ -103,31 +105,27 @@ void insere(Arv *a1, Dados d)
     }
 }
 
-/*void imprime(Dados d)
+//imprime os titulos da tabela
+void header()
 {
-    printf("\n\n");
-    printf("%d ", d.id);
-    printf("%s | ", d.vendedor);
-    printf("%s | ", d.cliente);
-    printf("%d/%d/%d | ", d.trans.dia, d.trans.mes, d.trans.ano);
-    printf("%.2f ", d.valor);
-}*/
-
-void imprime(Dados d)
-{
-    printf("\n\n");
-    // ID (Alinha à esquerda em um campo de largura 5)
-    printf("%d ", d.id);
-    // Vendedor (Alinha à esquerda em um campo de largura 20)
-    printf("%-20s | ", d.vendedor);
-    // Cliente (Alinha à esquerda em um campo de largura 20)
-    printf("%-20s | ", d.cliente);
-    // Data (Alinhamento manual: use %02d para garantir 2 dígitos na data)
-    printf("%02d/%02d/%04d | ", d.trans.dia, d.trans.mes, d.trans.ano);
-    // Valor (Alinha à esquerda em um campo de largura 10, com 2 casas decimais)
-    printf("R$%-10.2f ", d.valor);
+    printf("| ID  | ");
+    printf("%-50s | ", "VENDEDOR");
+    printf("| COD |");
+    printf("%-50s | ", "CLIENTE");
+    printf("DATA       | ");
+    printf("VALOR      |\n");
 }
 
+//imprime os cadastros
+void imprime(Dados d)
+{
+    printf("%d | ", d.id);
+    printf("%-50s | ", d.vendedor);
+    printf("%s | ", d.numvendedor);
+    printf("%-50s | ", d.cliente);
+    printf("%02d/%02d/%04d | ", d.trans.dia, d.trans.mes, d.trans.ano);
+    printf("R$%-10.2f |\n", d.valor);
+}
 
 NoArv* remover_aux(NoArv *pai, int num)
 {
@@ -206,7 +204,8 @@ Arv* remover(Arv *RAIZ, int num)
 
 void BuscaVendas(NoArv *pai, char busca[50])
 {
-    if (pai==NULL) {
+    if (pai==NULL)
+    {
         exit(0);
     }
     if (pai->dir != NULL)
@@ -268,8 +267,9 @@ void ValoresAbaixo(NoArv *pai, float num)
     {
         printf("\n\n");
         printf("%d ", pai->info.id);
-        printf("%s | ", pai->info.vendedor);
-        printf("%s | ", pai->info.cliente);
+        printf("%-20s | ", pai->info.vendedor);
+        printf("%-20s | ", pai->info.numvendedor);
+        printf("%-20s | ", pai->info.cliente);
         printf("%d/%d/%d | ", pai->info.trans.dia, pai->info.trans.mes, pai->info.trans.ano);
         printf("%.2f ", pai->info.valor);
     }
@@ -289,8 +289,9 @@ void ValoresAcima(NoArv *pai, float num)
     {
         printf("\n\n");
         printf("%d ", pai->info.id);
-        printf("%s | ", pai->info.vendedor);
-        printf("%s | ", pai->info.cliente);
+        printf("%-20s | ", pai->info.vendedor);
+        printf("%-20s | ", pai->info.numvendedor);
+        printf("%-20s | ", pai->info.cliente);
         printf("%d/%d/%d | ", pai->info.trans.dia, pai->info.trans.mes, pai->info.trans.ano);
         printf("R$%.2f ", pai->info.valor);
     }
@@ -340,12 +341,5 @@ int gera (void)
 void geraCodigo(char *codigo, char letra) {
     int numero = 100 + rand() % 900; // gera número de 3 dígitos (100–999)
     sprintf(codigo, "%c%d", letra, numero); // junta a letra e o número
-}
-
-void upper(char s[]) {
-    int i = 0;
-    while (s[i] != '\0') {
-        s[i] = toupper(s[i]);
-        i++;
-    }
+    codigo[4]='\0';
 }
