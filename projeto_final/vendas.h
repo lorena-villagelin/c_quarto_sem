@@ -119,10 +119,10 @@ void header()
 //imprime os cadastros
 void imprime(Dados d)
 {
-    printf("%d | ", d.id);
-    printf("%-50s | ", d.vendedor);
-    printf("%s | ", d.numvendedor);
-    printf("%-50s | ", d.cliente);
+    printf("%4d | ", d.id);
+    printf("%-30s | ", d.vendedor);
+    printf("%-4s | ", d.numvendedor);
+    printf("%-30s | ", d.cliente);
     printf("%02d/%02d/%04d | ", d.trans.dia, d.trans.mes, d.trans.ano);
     printf("R$%-10.2f |\n", d.valor);
 }
@@ -202,7 +202,7 @@ Arv* remover(Arv *RAIZ, int num)
     return RAIZ;
 }
 
-void BuscaVendas(NoArv *pai, char busca[50])
+void BuscaVendas(NoArv *pai, char busca[], int *Vendas)
 {
     if (pai==NULL)
     {
@@ -210,14 +210,15 @@ void BuscaVendas(NoArv *pai, char busca[50])
     }
     if (pai->dir != NULL)
     {
-        BuscaVendas(pai->dir, busca);
+        BuscaVendas(pai->dir, busca, Vendas);
     }
     if (pai->esq != NULL)
     {
-        BuscaVendas(pai->esq, busca);
+        BuscaVendas(pai->esq, busca, Vendas);
     }
     if(strcmp(pai->info.vendedor,busca)==0)
     {
+        (*Vendas) = 1;
         printf("\n\n");
         printf("%d ", pai->info.id);
         printf("%s | ", pai->info.cliente);
