@@ -27,6 +27,7 @@ int main ()
     a1 = CriaArvore();
     Dados A;
     int num, num2, total_vendas, ordem, id_remove;
+    int vendas=0;
     float valor, faturamento;
     char buscado[50];
 
@@ -148,7 +149,12 @@ int main ()
                 printf("Nome do vendedor que deseja buscar as vendas: ");
                 scanf("%s", buscado);
                 strupr(buscado);
-                BuscaVendas(a1->raiz, buscado);
+                BuscaVendas(a1->raiz, buscado, &vendas);
+
+                if(vendas == 0)
+                {
+                    printf("\nO vendedor buscado nao realizou nenhuma venda");
+                }
                 break;
 
             //Visualizar as vendas acima ou abaixo de um determinado valor
@@ -163,7 +169,7 @@ int main ()
                 tab();
                 printf("[2] Lista de vendas acima do valor\n");
                 scanf("%d", &num2);
-                // fazer do while pra só conseguir responder 1 e 2
+                // fazer do while pra sÃ³ conseguir responder 1 e 2
                 if(num2==1)
                 {
                     ValoresAbaixo(a1->raiz, valor);
