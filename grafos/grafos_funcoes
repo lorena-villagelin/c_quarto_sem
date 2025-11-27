@@ -1,0 +1,141 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+
+//Se um grafo é direcionado ou não
+void direcionado(int M[][5])
+{
+    int i, j, flag=0;
+    for(i=0;i<5;i++)
+    {
+        if (flag==0)
+        {
+            for(j=0;j<5;j++)
+            {
+                if(M[i][j]!=M[j][i])
+                {
+                    flag=1;
+                    break;
+                }
+            }
+        }
+    }
+    if(flag==1) printf("\n\ngrafo direcionado");
+    else printf("\n\ngrafo nao direcionado");
+}
+
+//Se um grafo é simples ou multigrafo
+void mult(int M[][5])
+{
+    int i, j, flag=0;
+    for(i=0;i<5;i++)
+    {
+        if (flag==0)
+        {
+            for(j=0;j<5;j++)
+            {
+                if(M[i][j]>1)
+                {
+                    flag=1;
+                    break;
+                }
+            }
+        }
+    }
+    if(flag=1) printf("\n\nmultigrafo");
+    else printf("\n\ngrafo simples");
+}
+
+//Se o grafo é regular (todos os vertices possuem o mesmo grau)
+void regular(int M[][5])
+{
+    int i, j, grau[5]={0};
+    for(i=0;i<5;i++)
+    {
+        for(j=0;j<5;j++)
+        {
+            if(M[i][j]==1 || M[i][j]==2)
+            {
+                grau[i]++;
+            }
+        }
+    }
+    for(i=0;i<5;i++)
+    {
+        if(grau[i]!=grau[i+1])
+        {
+                printf("\n\nirregular\n\n");
+                break;
+        }
+        else printf("\n\nregular");
+    }
+}
+
+//vértices fonte do grafo
+void fonte(int M[][5])
+{
+    int i, j, flag;
+    for(i=0;i<5;i++)
+    {
+        flag=0;
+        {
+            for(j=0;j<5;j++)
+            {
+                if(M[j][i]!=0)
+                {
+                    flag=1;
+                    break;
+                }
+            }
+        }
+        if(flag==0) printf("vertice fonte: %d", i+1);
+    }
+}
+
+//vértices sumidouro do grafo
+void semidouro(int M[][5])
+{
+    int i, j, flag;
+    for(i=0;i<5;i++)
+    {
+        flag=0;
+        for(j=0;j<5;j++)
+        {
+            if(M[i][j]!=0)
+            {
+                flag=1;
+                break;
+            }
+        }
+        if(flag==0) printf("vertice semidouro: %d", i+1);
+    }
+}
+
+int main()
+{
+    int i, j;
+    int M[][5] = {
+        {0, 3, 3, 0, 2},
+        {0, 0, 0, 0, 0},
+        {1, 1, 1, 0, 1},
+        {4, 0, 1, 0, 1},
+        {0, 1, 4, 0, 2},
+    };
+
+    for (i=0; i<5; i++)
+    {
+        for (j=0; j<5; j++)
+        {
+            printf("%d ", M[i][j]);
+        }
+        printf("\n");
+    }
+
+    direcionado(M);
+    mult(M);
+    regular(M);
+    fonte(M);
+    semidouro(M);
+
+    return 0;
+}
