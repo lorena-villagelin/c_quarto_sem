@@ -209,26 +209,49 @@ void header_vendas()
 
 void BuscaVendas(NoArv *pai, char busca[], int *Vendas)
 {
-    if (pai==NULL)
+    if (pai!=NULL)
     {
-        exit(0);
+        if (pai->dir != NULL)
+        {
+            BuscaVendas(pai->dir, busca, Vendas);
+        }
+        if (pai->esq != NULL)
+        {
+            BuscaVendas(pai->esq, busca, Vendas);
+        }
+        if(strcmp(pai->info.vendedor,busca)==0)
+        {
+            (*Vendas) = 1;
+            tab();
+            printf("| %4d | ", pai->info.id);
+            printf("%-30s | ", pai->info.cliente);
+            printf("%02d/%02d/%04d | ", pai->info.trans.dia, pai->info.trans.mes, pai->info.trans.ano);
+            printf("R$%-10.2f |\n", pai->info.valor);
+        }
     }
-    if (pai->dir != NULL)
+}
+
+void BuscaMat(NoArv *pai, char busca[], int *Vendas)
+{
+    if (pai!=NULL)
     {
-        BuscaVendas(pai->dir, busca, Vendas);
-    }
-    if (pai->esq != NULL)
-    {
-        BuscaVendas(pai->esq, busca, Vendas);
-    }
-    if(strcmp(pai->info.vendedor,busca)==0)
-    {
-        (*Vendas) = 1;
-        tab();
-        printf("| %4d | ", pai->info.id);
-        printf("%-30s | ", pai->info.cliente);
-        printf("%02d/%02d/%04d | ", pai->info.trans.dia, pai->info.trans.mes, pai->info.trans.ano);
-        printf("R$%-10.2f |\n", pai->info.valor);
+        if (pai->dir != NULL)
+        {
+            BuscaMat(pai->dir, busca, Vendas);
+        }
+        if (pai->esq != NULL)
+        {
+            BuscaMat(pai->esq, busca, Vendas);
+        }
+        if(strcmp(pai->info.numvendedor,busca)==0)
+        {
+            (*Vendas) = 1;
+            tab();
+            printf("| %4d | ", pai->info.id);
+            printf("%-30s | ", pai->info.cliente);
+            printf("%02d/%02d/%04d | ", pai->info.trans.dia, pai->info.trans.mes, pai->info.trans.ano);
+            printf("R$%-10.2f |\n", pai->info.valor);
+        }
     }
 }
 
@@ -249,6 +272,7 @@ int BuscaID(NoArv *pai, int id, int resul)
     return resul;
 }
 
+
 void Decrescente(NoArv *pai)
 {
     if (pai->dir != NULL)
@@ -266,7 +290,7 @@ void Crescente(NoArv *pai)
 {
       if (pai->esq != NULL)
     {
-        Cescente(pai->esq);
+        Crescente(pai->esq);
     }
     imprime(pai->info);
     if (pai->dir != NULL)
