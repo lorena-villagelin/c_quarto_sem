@@ -266,12 +266,12 @@ void Crescente(NoArv *pai)
 {
       if (pai->esq != NULL)
     {
-        Decrescente(pai->esq);
+        Cescente(pai->esq);
     }
     imprime(pai->info);
     if (pai->dir != NULL)
     {
-        Decrescente(pai->dir);
+        Crescente(pai->dir);
     }
 }
 
