@@ -5,7 +5,7 @@ int main ()
     Arv *a1;
     a1 = CriaArvore();
     Dados A;
-    int num, num2, total_vendas, ordem, id_remove, buscaid=0;
+    int num, num2, total_vendas=0, ordem, id_remove, buscaid=0, busca;
     int vendas=0, valores1=0, valores2=0;
     float valor, faturamento;
     char buscado[50];
@@ -145,13 +145,34 @@ int main ()
                     limpa();
                     break;
                 }
-                tab();
-                printf("Nome do vendedor que deseja buscar as vendas: ");
-                scanf("%s", buscado);
-                strupr(buscado);
-                vendas=0;
-                header_vendas();
-                BuscaVendas(a1->raiz, buscado, &vendas);
+                do{
+                        tab();
+                        printf("Como deseja buscar as vendas?:\n");
+                        tab();
+                        printf("[1] Nome\n");
+                        tab();
+                        printf("[2] Matricula\n");
+                        tab();
+                        printf("Opcao: ");
+                        scanf("%d", &busca);
+                }while(busca!=1 && busca!=2);
+                if(busca==1)
+                {
+                    tab();
+                    printf("Nome do vendedor que deseja buscar as vendas: ");
+                    scanf("%s", &buscado);
+                    header_vendas();
+                    BuscaVendas(a1->raiz, buscado, &vendas);
+                }
+                else
+                {
+                    tab();
+                    printf("Digite o ID da venda que deseja buscar: ");
+                    scanf("%s", &buscado);
+                    strupr(buscado);
+                    header_vendas();
+                    BuscaMat(a1->raiz, buscado, &vendas);
+                }
                 if(vendas == 0)
                 {
                     tab();
